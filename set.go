@@ -1,4 +1,4 @@
-package zdgoutil
+package zdutil
 
 // Intersect returns an array of elements that are common between two arrays.
 // Ignores duplicates

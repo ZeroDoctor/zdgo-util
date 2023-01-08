@@ -21,7 +21,7 @@ func Intersect[T comparable](a, b []T) []T {
 }
 
 // Union just use append() like a normal person
-func Union[T comparable](a, b []T) {}
+func Union[T comparable](a, b []T) []T { return append(a, b...) }
 
 // ExceptRight returns an array of elements only in the first array
 // Doesn't ignore duplicates
@@ -47,19 +47,5 @@ func ExceptRight[T comparable](a, b []T) []T {
 // More of a convenience function. Could just use ExceptRight and switch the params
 // Doesn't ignore duplicates
 func ExceptLeft[T comparable](a, b []T) []T {
-	var except []T
-
-	commonMap := make(map[T]bool)
-
-	for i := range a {
-		commonMap[a[i]] = true
-	}
-
-	for i := range b {
-		if !commonMap[b[i]] {
-			except = append(except, b[i])
-		}
-	}
-
-	return except
+	return ExceptRight(b, a)
 }

@@ -1,4 +1,4 @@
-package zdgoutil
+package zdutil
 
 import "unicode"
 

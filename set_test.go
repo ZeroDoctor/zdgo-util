@@ -24,6 +24,21 @@ func TestIntersect(t *testing.T) {
 			break
 		}
 	}
+
+	seta := NewSet(a...)
+	setb := NewSet(b...)
+
+	setgot := seta.Intersect(*setb)
+
+	if setgot.Len() < len(want) {
+		fmt.Printf("[ERROR] failed to get correct length intersection:\n\t[got=%v]\n\t[want=%v]\n", setgot.Values(), want)
+		t.FailNow()
+	}
+
+	if !setgot.Contains(want...) {
+		fmt.Printf("[ERROR] failed to get correct intersection:\n\t[got=%v]\n\t[want=%v]\n", setgot.Values(), want)
+		t.FailNow()
+	}
 }
 
 func TestExcept(t *testing.T) {
@@ -46,6 +61,22 @@ func TestExcept(t *testing.T) {
 		}
 	}
 
+	leftset := NewSet(left...)
+	rightset := NewSet(right...)
+
+	want = []int{1, 4, 7}
+	gotset := rightset.ExceptRight(*leftset)
+
+	if gotset.Len() < len(want) {
+		fmt.Printf("[ERROR] failed to get correct exception:\n\t[got=%v]\n\t[want=%v]\n", gotset.Values(), want)
+		t.FailNow()
+	}
+
+	if !gotset.Contains(want...) {
+		fmt.Printf("[ERROR] failed to get correct exception:\n\t[got=%v]\n\t[want=%v]\n", gotset.Values(), want)
+		t.FailNow()
+	}
+
 	want = []int{0, 5, 5, 8, 9}
 	got = ExceptLeft(left, right)
 
@@ -62,8 +93,21 @@ func TestExcept(t *testing.T) {
 		}
 	}
 
+	want = []int{0, 5, 8, 9}
+	gotset = rightset.ExceptLeft(*leftset)
+
+	if gotset.Len() < len(want) {
+		fmt.Printf("[ERROR] failed to get correct exception:\n\t[got=%v]\n\t[want=%v]\n", gotset.Values(), want)
+		t.FailNow()
+	}
+
+	if !gotset.Contains(want...) {
+		fmt.Printf("[ERROR] failed to get correct exception:\n\t[got=%v]\n\t[want=%v]\n", gotset.Values(), want)
+		t.FailNow()
+	}
+
 	want = []int{0, 5, 5, 8, 9, 1, 4, 7}
-	got = append(ExceptLeft(left, right), ExceptRight(left, right)...)
+	got = Union(ExceptLeft(left, right), ExceptRight(left, right))
 
 	if len(got) < len(want) {
 		fmt.Printf("[ERROR] failed to get correct exception:\n\t[got=%v]\n\t[want=%v]\n", got, want)

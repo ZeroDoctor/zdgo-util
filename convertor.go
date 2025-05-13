@@ -6,7 +6,13 @@ import (
 	"strings"
 )
 
-// ColorHexToRGB converts hex string to three integer rgb values
+// ColorHexToRGB converts a color represented as a hex string to
+// three individual RGB values.
+//
+// The returned values represent the red, green, and blue components
+// of the color, each ranging from 0 to 255.
+//
+// An empty or invalid hex string will return three zero values.
 func ColorHexToRGB(colorHex string) (red, green, blue int) {
 	colorHex = strings.TrimPrefix(colorHex, "#")
 	color64, err := strconv.ParseInt(colorHex, 16, 32)
@@ -17,7 +23,9 @@ func ColorHexToRGB(colorHex string) (red, green, blue int) {
 	return color >> 16, (color & 0x00FF00) >> 8, color & 0x0000FF
 }
 
-// ColorRGBToHex converts three integer rgb values to hex string
+// ColorRGBToHex converts three individual RGB values to a color represented as a hex string.
+//
+// The returned string is a valid hex color code, with a leading "#".
 func ColorRGBToHex(red, green, blue int) string {
 	r := strconv.FormatInt(int64(red), 16)
 	g := strconv.FormatInt(int64(green), 16)
@@ -36,6 +44,12 @@ func ColorRGBToHex(red, green, blue int) string {
 	return "#" + r + g + b
 }
 
+// ConvertYmlToJson converts a YAML-compatible map to a JSON-compatible map.
+//
+// The input map may contain keys that are not strings, and the values
+// may be maps that require recursive conversion. The returned map
+// will have string keys, and only contain values that are compatible
+// with JSON.
 func ConvertYmlToJson(m map[interface{}]interface{}) map[string]interface{} {
 	res := map[string]interface{}{}
 	for k, v := range m {
